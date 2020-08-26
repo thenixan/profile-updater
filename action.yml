@@ -1,0 +1,14 @@
+name: 'Youtube videos profile updater'
+description: 'Generate a MD file, based on the uploaded videos to the channel'
+inputs:
+  channel-id: # id of the yt channel
+    description: 'ID of the channel'
+    required: true
+  api-key: # youtube api key
+    required: true
+    description: 'YouTube api key'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.who-to-greet }}
