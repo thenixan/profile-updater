@@ -5,11 +5,13 @@ use reqwest::Url;
 use crate::api::Api;
 use crate::api::request_parameter::collection::RequestParametersSet;
 use crate::api::url_generator::channels_url::ChannelsUrl;
+use crate::api::url_generator::playlist_items_url::PlaylistItemsUrl;
 use crate::api::url_generator::playlists_url::PlaylistsUrl;
 use crate::base_url::{BASE_URL, BaseUrl};
 
 mod channels_url;
 mod playlists_url;
+mod playlist_items_url;
 
 pub struct UrlGenerator<'r> {
     api: &'r Api
@@ -26,6 +28,10 @@ impl<'r> UrlGenerator<'r> {
 
     pub fn playlists_url(&self) -> UrlBuilder<PlaylistsUrl> {
         UrlBuilder { api_url: PlaylistsUrl::default(), key: &self.api.key }
+    }
+
+    pub fn playlist_items_url(&self) -> UrlBuilder<PlaylistItemsUrl> {
+        UrlBuilder { api_url: PlaylistItemsUrl::default(), key: &self.api.key }
     }
 }
 

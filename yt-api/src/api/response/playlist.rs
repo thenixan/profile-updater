@@ -3,16 +3,16 @@ use serde::Deserialize;
 #[derive(Clone, Deserialize, Debug)]
 pub struct PlaylistResponse {
     #[serde(rename = "items")]
-    items: Vec<PlaylistDescription>,
+    pub items: Vec<PlaylistDescription>,
     #[serde(rename = "kind")]
-    kind: String,
+    pub kind: String,
 }
 
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct PlaylistContentDetails {
     #[serde(rename = "itemCount")]
-    count: u32
+    pub count: u32
 }
 
 #[derive(Clone, Deserialize, Debug)]

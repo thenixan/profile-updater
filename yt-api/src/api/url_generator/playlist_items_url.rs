@@ -1,23 +1,35 @@
-use crate::api::request_parameter::collection::RequestParametersSet;
+use crate::api::request_parameter::collection::{RequestParametersSet, RequestParametersSetter};
 use crate::api::request_parameter::page::PageParameter;
 use crate::api::request_parameter::parts_holder::PartsHolder;
 use crate::api::url_generator::ApiUrl;
 use crate::channel::channel_id::ChannelId;
 
 #[derive(Clone)]
-pub struct PlaylistsUrl {
+struct MaxItems(Option<u32>);
+
+impl RequestParametersSetter for MaxItems {
+    fn set(&self, set: RequestParametersSet) -> RequestParametersSet {
+        if let Some(max) = self.0 {
+            set.append_plain("maxItems", max.to_string())
+        } else {
+            set
+        }
+    }
+}
+
+#[derive(Clone)]
+pub struct PlaylistItemsUrl {
     parts: PartsHolder<Part>,
     id: String,
     page: PageParameter,
+    limiter: MaxItems,
 }
 
 #[derive(Eq, PartialEq, Copy, Clone)]
 pub enum Part {
     ContentDetails,
     Id,
-    Localizations,
     Snippet,
-    Player,
     Status,
 }
 
@@ -27,14 +39,12 @@ impl AsRef<str> for Part {
             Part::Snippet => "snippet",
             Part::ContentDetails => "contentDetails",
             Part::Id => "id",
-            Part::Localizations => "localizations",
             Part::Status => "status",
-            Part::Player => "player"
         }
     }
 }
 
-impl PlaylistsUrl {
+impl PlaylistItemsUrl {
     pub fn part_content_details(&mut self) -> &mut Self {
         self.parts.toggle_part(Part::ContentDetails);
         self
@@ -50,23 +60,13 @@ impl PlaylistsUrl {
         self
     }
 
-    pub fn part_player(&mut self) -> &mut Self {
-        self.parts.toggle_part(Part::Player);
-        self
-    }
-
     pub fn part_id(&mut self) -> &mut Self {
         self.parts.toggle_part(Part::Id);
         self
     }
 
-    pub fn part_localizations(&mut self) -> &mut Self {
-        self.parts.toggle_part(Part::Localizations);
-        self
-    }
-
-    pub fn channel_id<T: Into<ChannelId>>(&mut self, channel_id: T) -> &mut Self {
-        self.id = channel_id.into().0.clone();
+    pub fn playlist_id(&mut self, playlist_id: String) -> &mut Self {
+        self.id = playlist_id;
         self
     }
 
@@ -74,28 +74,35 @@ impl PlaylistsUrl {
         self.page = page;
         self
     }
+
+    pub fn limit(&mut self, limit: Option<u32>) -> &mut Self {
+        self.limiter = MaxItems(limit);
+        self
+    }
 }
 
-impl Default for PlaylistsUrl {
+impl Default for PlaylistItemsUrl {
     fn default() -> Self {
-        PlaylistsUrl {
+        PlaylistItemsUrl {
             parts: PartsHolder::default(),
             id: "".to_string(),
             page: PageParameter::default(),
+            limiter: MaxItems(None),
         }
     }
 }
 
-impl ApiUrl for PlaylistsUrl {
+impl ApiUrl for PlaylistItemsUrl {
     fn name(&self) -> String {
-        "playlists".to_string()
+        "playlistItems".to_string()
     }
 
     fn params(&self) -> RequestParametersSet {
         let parts = &self.parts;
         RequestParametersSet::default()
-            .append_plain("channelId", &self.id)
+            .append_plain("playlistId", &self.id)
             .append(&self.page)
             .append(parts)
+            .append(&self.limiter)
     }
 }

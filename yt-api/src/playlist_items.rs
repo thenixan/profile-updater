@@ -7,36 +7,36 @@ use crate::errors;
 use crate::errors::ErrorKind::CannotLoadPlaylistItems;
 use crate::thumbnails::Thumbnail;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct PlaylistItemsResponse {
     #[serde(rename = "items")]
-    items: Vec<PlaylistItem>
+    pub items: Vec<PlaylistItem>
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct PlaylistItemContentDetails {
     #[serde(rename = "videoId")]
-    video_id: String,
+    pub video_id: String,
     #[serde(rename = "videoPublishedAt")]
-    published_at: DateTime<Utc>,
+    pub published_at: DateTime<Utc>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct PlaylistItemSnippet {
     #[serde(rename = "position")]
-    position: u32,
+    pub position: u32,
     #[serde(rename = "title")]
-    title: String,
+    pub title: String,
     #[serde(rename = "thumbnails")]
-    thumbnails: HashMap<String, Thumbnail>,
+    pub thumbnails: HashMap<String, Thumbnail>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct PlaylistItem {
     #[serde(rename = "contentDetails")]
-    content_details: PlaylistItemContentDetails,
+    pub content_details: PlaylistItemContentDetails,
     #[serde(rename = "snippet")]
-    snippet: PlaylistItemSnippet,
+    pub snippet: PlaylistItemSnippet,
 }
 
 

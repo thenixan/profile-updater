@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Thumbnail {
     #[serde(flatten)]
     pub dimensions: Dimensions,
@@ -8,7 +8,7 @@ pub struct Thumbnail {
     pub url: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Dimensions {
     #[serde(rename = "width")]
     pub width: u16,
