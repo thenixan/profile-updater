@@ -1,14 +1,10 @@
-use chrono::{DateTime, Utc};
 use reqwest::Url;
 
 use crate::api::Api;
 use crate::api::request_parameter::page::PageParameter;
 use crate::api::response::pagination::PagedResponse;
-use crate::api::response::playlist::{PlaylistDescription, PlaylistResponse};
 use crate::api::scopes::ApiError;
 use crate::api::url_generator::UrlGenerator;
-use crate::channel::channel_id::ChannelId;
-use crate::errors::ErrorKind::CannotLoadChannelsList;
 use crate::playlist_items::{PlaylistItem, PlaylistItemsResponse};
 
 pub trait PlaylistItemsApi {

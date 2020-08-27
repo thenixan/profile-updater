@@ -2,7 +2,6 @@ use crate::api::request_parameter::collection::{RequestParametersSet, RequestPar
 use crate::api::request_parameter::page::PageParameter;
 use crate::api::request_parameter::parts_holder::PartsHolder;
 use crate::api::url_generator::ApiUrl;
-use crate::channel::channel_id::ChannelId;
 
 #[derive(Clone)]
 struct MaxItems(Option<u32>);

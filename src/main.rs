@@ -11,7 +11,6 @@ use yt_api::api::scopes::playlist_items::PlaylistItemsApi;
 use yt_api::api::scopes::playlists::PlaylistApi;
 use yt_api::api_key::ApiKey;
 use yt_api::channel::channel_id::ChannelId;
-use yt_api::playlist_items::PlaylistItem;
 
 use crate::parameters::Parameters;
 
@@ -30,17 +29,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut output = File::create("README.md")?;
 
-    writeln!(output, "[![](https://img.shields.io/badge/youtube-seems%2Fnerdy-red?style=plastic&logo=youtube)](https://www.youtube.com/channel/UCA7ymlAF32Up8VKeDVv9uQw)");
-    writeln!(output);
+    writeln!(output, "[![](https://img.shields.io/badge/youtube-seems%2Fnerdy-red?style=plastic&logo=youtube)](https://www.youtube.com/channel/UCA7ymlAF32Up8VKeDVv9uQw)")?;
+    writeln!(output)?;
 
     playlists.iter().for_each(|playlist| {
-        writeln!(output, "- [{}](https://www.youtube.com/playlist?list={})", playlist.snippet.title, playlist.id);
+        writeln!(output, "- [{}](https://www.youtube.com/playlist?list={})", playlist.snippet.title, playlist.id).unwrap();
         if let Ok(playlist_items) = PlaylistItemsApi::list(&api, &playlist.id) {
             playlist_items.into_iter().sorted_by(|a, b| b.snippet.position.cmp(&a.snippet.position)).for_each(|item| {
                 writeln!(output, "  - [{title} ![](https://img.shields.io/youtube/views/{id}?style=social)](https://youtu.be/{id})",
                          title = item.snippet.title,
-                         id = item.content_details.video_id);
-                writeln!(output);
+                         id = item.content_details.video_id).unwrap();
+                writeln!(output).unwrap();
             })
         }
     });

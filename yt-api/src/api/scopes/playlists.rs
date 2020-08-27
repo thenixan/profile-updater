@@ -7,8 +7,6 @@ use crate::api::response::playlist::{PlaylistDescription, PlaylistResponse};
 use crate::api::scopes::ApiError;
 use crate::api::url_generator::UrlGenerator;
 use crate::channel::channel_id::ChannelId;
-use crate::errors::ErrorKind::CannotLoadChannelsList;
-use crate::playlist_items::PlaylistItem;
 
 pub trait PlaylistApi {
     fn list(&self, channel_id: &ChannelId) -> Result<Vec<PlaylistDescription>, ApiError>;

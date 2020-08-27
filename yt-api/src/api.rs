@@ -1,13 +1,6 @@
-use reqwest::Url;
-
-use crate::api::response::pagination::PagedResponse;
-use crate::api::response::playlist::PlaylistResponse;
-use crate::api::url_generator::UrlGenerator;
 use crate::api_key::ApiKey;
 use crate::channel::Channel;
 use crate::channel::channel_id::ChannelId;
-use crate::errors;
-use crate::errors::ErrorKind::CannotLoadChannelsList;
 
 pub mod url_generator;
 pub mod request_parameter;
